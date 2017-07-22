@@ -1,0 +1,2 @@
+# python_impala_kudu_flask_restful
+用python连接impala从kudu中取数据，并设计restful接口，返回多种格式的json（最后一条自己瞎搞的）
