@@ -13,7 +13,7 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
-    conn = connect(host='10.20.110.2', port=21050, database="db10002", user="admin@evcard", password="admin")
+    conn = connect(host='xx.xx.xx.xx', port=21050, database="dbname", user="username", password="password")
     cur = conn.cursor()
     cur.execute("select * from org_info limit 2")
     #a = cur.fetchall()
