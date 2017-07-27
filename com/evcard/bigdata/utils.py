@@ -42,10 +42,21 @@ def trans_array(df):
     return res
 
 def trans_array2(df):
-    dict2 = []
+    list = []
     d = np.array(df).tolist()
     for i in range(0, len(d)):
         dict = {"name": d[i][0], "value": [d[i][1], d[i][2], d[i][3]], "shop_seq": d[i][4]}
-        dict2.append(dict)
-    res = (json.dumps(dict2, ensure_ascii=False))
+        list.append(dict)
+    res = (json.dumps(list, ensure_ascii=False))
     return res
+
+def trans_array3(df):
+    d = np.array(df).tolist()
+    list = []
+    dict1 = {"value": d[0][0], "name": "实际支付"}
+    dict2 = {"value": d[0][1], "name": "E币"}
+    dict3 = {"value": d[0][2], "name": "优惠券"}
+    list.append(dict1)
+    list.append(dict2)
+    list.append(dict3)
+    return json.dumps(list, ensure_ascii=False)
