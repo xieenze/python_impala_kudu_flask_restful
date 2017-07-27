@@ -4,7 +4,8 @@ from flask import Flask, jsonify,request
 from flask import make_response
 from impala.util import as_pandas
 import json
-from com.evcard.bigdata.Commonutils import get_sql,get_conn,get_now_and_7days_time,get_yes_time,trans_array,trans_array2
+from com.evcard.bigdata.Commonutils import get_sql,get_conn,get_now_and_7days_time,get_yes_time,trans_array,trans_array2,trans_array3
+import numpy as np
 
 
 app = Flask(__name__)
@@ -61,7 +62,7 @@ def api_payrate_zhexian():
             .replace("get_area_id",request.args['areaid'])\
             .replace("seven_days_time","'"+seven_days_time+"'")\
             .replace("now_time","'"+now_time+"'")
-        #print (sql)
+        print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
         res = trans_array(df)
@@ -101,7 +102,7 @@ def api_payrate_zhexian():
         sql = get_sql("sql", "sql_payrate_zhexian5") \
             .replace("seven_days_time", "'"+seven_days_time+"'") \
             .replace("now_time", "'"+now_time+"'")
-        #print (sql)
+        print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
         res = trans_array(df)
@@ -121,7 +122,8 @@ def api_payrate_bing():
         #print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
-        return json.dumps(df.to_dict(orient='records'), ensure_ascii=False)
+        res = trans_array3(df)
+        return res
     if 'provinceid' in request.args and 'cityid' in request.args and "shopid" not in request.args:
         sql = get_sql("sql", "sql_payrate2") \
             .replace("province_", request.args['provinceid']) \
@@ -130,7 +132,8 @@ def api_payrate_bing():
         #print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
-        return json.dumps(df.to_dict(orient='records'), ensure_ascii=False)
+        res = trans_array3(df)
+        return res
     if 'provinceid' in request.args and "shopid" not in request.args:
         sql = get_sql("sql", "sql_payrate3") \
             .replace("province_", request.args['provinceid']) \
@@ -138,7 +141,8 @@ def api_payrate_bing():
         #print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
-        return json.dumps(df.to_dict(orient='records'), ensure_ascii=False)
+        res = trans_array3(df)
+        return res
     if 'shopid' in request.args :
         sql = get_sql("sql", "sql_payrate4") \
             .replace("shop__", request.args['shopid']) \
@@ -146,7 +150,8 @@ def api_payrate_bing():
         #print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
-        return json.dumps(df.to_dict(orient='records'), ensure_ascii=False)
+        res = trans_array3(df)
+        return res
 
     else:
         sql = get_sql("sql", "sql_payrate5") \
@@ -154,14 +159,11 @@ def api_payrate_bing():
         #print (sql)
         cur.execute(sql)
         df = as_pandas(cur)
-        return json.dumps(df.to_dict(orient='records'), ensure_ascii=False)
-
-
-
-
+        res = trans_array3(df)
+        return res
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    app.run(debug=False,port=5000,host='0.0.0.0')
+    app.run(debug=True,port=5000,host='0.0.0.0')
