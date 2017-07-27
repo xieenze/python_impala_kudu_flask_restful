@@ -4,7 +4,7 @@ from flask import Flask, jsonify,request
 from flask import make_response
 from impala.util import as_pandas
 import json
-from com.evcard.bigdata.Commonutils import get_sql,get_conn,get_now_and_7days_time,get_yes_time,trans_array,trans_array2,trans_array3
+from utils import get_sql,get_conn,get_now_and_7days_time,get_yes_time,trans_array,trans_array2,trans_array3
 import numpy as np
 
 
@@ -166,4 +166,4 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5000,host='0.0.0.0')
+    app.run(debug=False,port=5000,host='0.0.0.0')
